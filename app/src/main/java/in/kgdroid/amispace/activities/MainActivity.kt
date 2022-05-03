@@ -1,5 +1,6 @@
-package `in`.kgdroid.amispace
+package `in`.kgdroid.amispace.activities
 
+import `in`.kgdroid.amispace.R
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 

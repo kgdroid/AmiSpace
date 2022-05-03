@@ -22,5 +22,6 @@
 
     //SignIn Activity
     <string name="sign_in_email_or_phone">Email or Phone</string>
+    <string name="please_wait_8230">Please Wait…</string>
 
 </resources>
