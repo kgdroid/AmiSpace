@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "982928407291",
+    "project_id": "amispace-f3d6f",
+    "storage_bucket": "amispace-f3d6f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982928407291:android:484f974c1c3038e9fa4e5e",
+        "android_client_info": {
+          "package_name": "in.kgdroid.amispace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982928407291-i9nf729lkc353bf05cb4hr80173g61al.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBF-2rShL2D05YX0G_7tYwoJTvKc9lw5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982928407291-i9nf729lkc353bf05cb4hr80173g61al.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
