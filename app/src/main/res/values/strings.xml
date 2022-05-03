@@ -1,3 +1,26 @@
 <resources>
+    //App Name
     <string name="app_name">AmiSpace</string>
+
+    //Universal Values
+
+
+    //Activities
+    //Intro Activity
+    <string name="intro_hello_text">Hello!</string>
+    <string name="intro_sign_up">Sign Up!</string>
+    <string name="intro_sign_in">Sign In!</string>
+    <string name="intro_sign_in_subtext">Returning? Just sign in to resume.</string>
+    <string name="intro_sign_up_subtext">New Here? Don\'t worry just Sign Up.</string>
+
+    //SignUp Activity
+    <string name="sign_up_welcome_text">Welcome!</string>
+    <string name="sign_up_username">Username</string>
+    <string name="sign_up_name">Name</string>
+    <string name="sign_up_email">Email</string>
+    <string name="sign_up_password">Password</string>
+
+    //SignIn Activity
+    <string name="sign_in_email_or_phone">Email or Phone</string>
+
 </resources>
