@@ -21,4 +21,13 @@
         <item name="android:windowEnterTransition">@transition/trans_anim</item>
         <item name="android:windowExitTransition">@transition/trans_anim</item>
     </style>
+
+    <style name="Theme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"></style>
+
+    <style name="Theme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="Theme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

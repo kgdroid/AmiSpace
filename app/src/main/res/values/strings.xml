@@ -23,5 +23,7 @@
     //SignIn Activity
     <string name="sign_in_email_or_phone">Email or Phone</string>
     <string name="please_wait_8230">Please Wait…</string>
+    <string name="nav_my_profile">My Profile</string>
+    <string name="nav_sign_out">Sign Out</string>
 
 </resources>
