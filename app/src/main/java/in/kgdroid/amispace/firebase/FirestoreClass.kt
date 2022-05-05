@@ -1,9 +1,12 @@
 package `in`.kgdroid.amispace.firebase
 
+import `in`.kgdroid.amispace.activities.MainActivity
+import `in`.kgdroid.amispace.activities.MyProfileActivity
 import `in`.kgdroid.amispace.activities.SignInActivity
 import `in`.kgdroid.amispace.activities.SignUpActivity
 import `in`.kgdroid.amispace.models.User
 import `in`.kgdroid.amispace.utils.Constants
+import android.app.Activity
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,15 +27,35 @@ class FirestoreClass {
             }
     }
 
-    fun signInUser(activity: SignInActivity){
+    fun loadUserData(activity: Activity){
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId()).get()
             .addOnSuccessListener { document ->
-                val loggedInUser = document.toObject(User::class.java)
-                if(loggedInUser !=null)
-                    activity.signInSuccess(loggedInUser)
+                val loggedInUser = document.toObject(User::class.java)!!
+
+                when(activity){
+                    is SignInActivity ->{
+                        activity.signInSuccess(loggedInUser)
+                    }
+                    is MainActivity ->{
+                        activity.updateNavigationUserDetails(loggedInUser)
+                    }
+                    is MyProfileActivity ->{
+                        activity.setUserDataInUI(loggedInUser)
+                    }
+                }
+
             }.addOnFailureListener{
                     e->
+                when(activity){
+                    is SignInActivity ->{
+                        activity.hideProgressDialog()
+                    }
+                    is MainActivity ->{
+                        activity.hideProgressDialog()
+                    }
+                }
+
                 Log.e("SignInUser", "Error")
             }
     }

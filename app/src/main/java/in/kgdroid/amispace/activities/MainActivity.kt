@@ -2,16 +2,17 @@ package `in`.kgdroid.amispace.activities
 
 import `in`.kgdroid.amispace.R
 import `in`.kgdroid.amispace.databinding.ActivityMainBinding
-import `in`.kgdroid.amispace.databinding.ActivitySignUpBinding
+import `in`.kgdroid.amispace.firebase.FirestoreClass
+import `in`.kgdroid.amispace.models.User
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
-import android.widget.Toolbar
+import android.widget.TextView
 import androidx.core.view.GravityCompat
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import de.hdodenhof.circleimageview.CircleImageView
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -25,6 +26,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupActionBar()
 
         binding.navView.setNavigationItemSelectedListener(this)
+
+        FirestoreClass().loadUserData(this)
     }
 
     private fun setupActionBar(){
@@ -53,11 +56,24 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
+    fun updateNavigationUserDetails(user:User){
+        val nav_user_image:CircleImageView= binding.navView.findViewById(R.id.nav_user_image)
+        val tv_username:TextView= binding.navView.findViewById(R.id.tv_username)
+        Glide
+            .with(this)
+            .load(user.image)
+            .centerCrop()
+            .placeholder(R.drawable.ic_user_image)
+            .into(nav_user_image)
+
+        tv_username.text= user.name
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId){
             R.id.nav_my_profile ->{
-                Toast.makeText(this@MainActivity, "My Profile", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, MyProfileActivity::class.java))
             }
             R.id.nav_sign_out ->{
                 FirebaseAuth.getInstance().signOut()
