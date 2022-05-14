@@ -1,8 +1,6 @@
 package `in`.kgdroid.amispace.adapters
 
 import `in`.kgdroid.amispace.R
-import `in`.kgdroid.amispace.databinding.ActivityMainBinding
-import `in`.kgdroid.amispace.databinding.ItemBoardBinding
 import `in`.kgdroid.amispace.models.Board
 import android.content.Context
 import android.view.LayoutInflater
@@ -15,7 +13,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 open class BoardItemAdapter(private val context: Context, private var list: ArrayList<Board>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var onClickListner: OnClickListner?= null
+    private var onClickListener: OnClickListener?= null
 
 
 
@@ -43,22 +41,26 @@ open class BoardItemAdapter(private val context: Context, private var list: Arra
             tv_created_by.text= "Created by: ${model.createBy}"
 
             holder.itemView.setOnClickListener {
-                if(onClickListner != null){
-                    onClickListner!!.onClick(position, model)
+                if(onClickListener != null){
+                    onClickListener!!.onClick(position, model)
                 }
             }
         }
     }
 
-    interface OnClickListner{
+    interface OnClickListener{
         fun onClick(position: Int, model: Board)
+    }
+
+    fun setOnClickListener(onClickListener: OnClickListener){
+        this.onClickListener= onClickListener
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
 
-    private class MyViewHolder(view: View): RecyclerView.ViewHolder(view)
+    class MyViewHolder(view: View): RecyclerView.ViewHolder(view)
 
 
 }

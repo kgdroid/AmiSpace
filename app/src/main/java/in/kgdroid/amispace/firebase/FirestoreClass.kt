@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import `in`.kgdroid.amispace.models.Board
+import com.google.firebase.firestore.DocumentId
 
 class FirestoreClass {
 
@@ -23,6 +24,23 @@ class FirestoreClass {
             }.addOnFailureListener{
                 e->
                 Log.e(activity.javaClass.simpleName, "Error")
+            }
+    }
+
+    fun getBoardDetails(activity: TaskListActivity, documentId: String){
+        mFireStore.collection(Constants.BOARDS)
+            .document(documentId)
+            .get()
+            .addOnSuccessListener {
+                    document ->
+                Log.i(activity.javaClass.simpleName, document.toString())
+                val board= document.toObject(Board::class.java)!!
+                board.documentId= document.id
+                activity.boardDetails(board)
+
+            }.addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating board", e)
             }
     }
 
@@ -58,6 +76,22 @@ class FirestoreClass {
             }.addOnFailureListener { e ->
                 activity.hideProgressDialog()
                 Log.e(activity.javaClass.simpleName, "Error while creating board", e)
+            }
+    }
+
+    fun addUpdateTaskList(activity: TaskListActivity, board: Board){
+        val taskListHashMap= HashMap<String, Any>()
+        taskListHashMap[Constants.TASK_LIST]= board.taskList
+
+        mFireStore.collection(Constants.BOARDS).document(board.documentId).update(taskListHashMap)
+            .addOnSuccessListener {
+                Log.e(activity.javaClass.simpleName, "taskList updated successfully")
+
+                activity.addUpdateTaskListSuccess()
+            }. addOnFailureListener {
+                exception ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board.", exception)
             }
     }
 
