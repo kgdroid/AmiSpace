@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 open class TaskListItemsAdapter(private val context: Context, private var list: ArrayList<Task>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -42,6 +43,12 @@ open class TaskListItemsAdapter(private val context: Context, private var list: 
         val ib_close_editatble_view: ImageButton= holder.itemView.findViewById(R.id.ib_close_editable_view)
         val ib_done_edit_list_name: ImageButton= holder.itemView.findViewById(R.id.ib_done_edit_list_name)
         val ib_delete_list: ImageButton= holder.itemView.findViewById(R.id.ib_delete_list)
+        val tv_add_card: TextView= holder.itemView.findViewById(R.id.tv_add_card)
+        val cv_add_card: CardView= holder.itemView.findViewById(R.id.cv_add_card)
+        val ib_close_card_name: ImageButton= holder.itemView.findViewById(R.id.ib_close_card_name)
+        val ib_done_card_name: ImageButton= holder.itemView.findViewById(R.id.ib_done_card_name)
+        val et_card_name: EditText= holder.itemView.findViewById(R.id.et_card_name)
+        val rv_card_list: RecyclerView= holder.itemView.findViewById(R.id.rv_card_list)
 
 
         if(holder is MyViewHolder){
@@ -104,6 +111,33 @@ open class TaskListItemsAdapter(private val context: Context, private var list: 
 
             }
 
+            tv_add_card.setOnClickListener {
+                tv_add_card.visibility= View.GONE
+                cv_add_card.visibility= View.VISIBLE
+            }
+
+            ib_close_card_name.setOnClickListener {
+                tv_add_card.visibility= View.VISIBLE
+                cv_add_card.visibility= View.GONE
+            }
+
+            ib_done_card_name.setOnClickListener {
+                val cardName= et_card_name.text.toString()
+
+                if(cardName.isNotEmpty()){
+                    if(context is TaskListActivity){
+                        context.addCardToTaskList(position, cardName)
+                    }
+                }else{
+                    Toast.makeText(context, "Please Enter Card Name.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            rv_card_list.layoutManager = LinearLayoutManager(context)
+            rv_card_list.setHasFixedSize(true)
+
+            val adapter = CardListItemsAdapter(context, model.cards)
+            rv_card_list.adapter= adapter
         }
     }
 
