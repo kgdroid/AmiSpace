@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2165" />
         <entry key="app/src/main/res/drawable-v24/shape_dialog_rounded.xml" value="0.2165" />
         <entry key="app/src/main/res/drawable/bg_back_btn.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/bg_forward_btn.xml" value="0.238" />
@@ -40,6 +41,7 @@
         <entry key="app/src/main/res/menu/menu_add_member.xml" value="0.37025641025641026" />
         <entry key="app/src/main/res/menu/menu_delete_card.xml" value="0.33958333333333335" />
         <entry key="app/src/main/res/menu/menu_members.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2165" />
       </map>
     </option>
   </component>

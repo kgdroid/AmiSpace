@@ -8,12 +8,15 @@ import `in`.kgdroid.amispace.models.Board
 import `in`.kgdroid.amispace.models.User
 import `in`.kgdroid.amispace.utils.Constants
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import com.google.firebase.iid.FirebaseInstanceId
 import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +37,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private lateinit var mUserName: String
 
+    private lateinit var mSharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
@@ -43,6 +48,23 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         binding.navView.setNavigationItemSelectedListener(this)
 
+        mSharedPreferences = this.getSharedPreferences(Constants.AMISPACE_PREFERENCES, Context.MODE_PRIVATE)
+
+        val tokenUpdated = mSharedPreferences.getBoolean(Constants.FCM_TOKEN_UPDATED, false)
+
+        // Here if the token is already updated than we don't need to update it every time.
+        if (tokenUpdated) {
+            // Get the current logged in user details.
+            // Show the progress dialog.
+            showProgressDialog()
+            FirestoreClass().loadUserData(this@MainActivity, true)
+        } else {
+            FirebaseInstanceId.getInstance()
+                .instanceId.addOnSuccessListener(this@MainActivity) { instanceIdResult ->
+                    updateFCMToken(instanceIdResult.token)
+                }
+        }
+
         FirestoreClass().loadUserData(this, true)
 
         binding.toolBar.fabCreateBoard.setOnClickListener{
@@ -50,6 +72,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             intent.putExtra(Constants.NAME, mUserName)
             startActivityForResult(intent, CREATE_BOARD_REQUEST_CODE)
         }
+
+
     }
 
     fun populateBoardsListToUI(boardsList: ArrayList<Board>){
@@ -148,6 +172,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.nav_sign_out ->{
                 FirebaseAuth.getInstance().signOut()
 
+                mSharedPreferences.edit().clear().apply()
+
                 val intent= Intent(this, IntroActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
@@ -156,5 +182,26 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun tokenUpdateSuccess() {
+
+        hideProgressDialog()
+
+        val editor: SharedPreferences.Editor = mSharedPreferences.edit()
+        editor.putBoolean(Constants.FCM_TOKEN_UPDATED, true)
+        editor.apply()
+
+        showProgressDialog()
+        FirestoreClass().loadUserData(this@MainActivity, true)
+    }
+
+    private fun updateFCMToken(token: String) {
+
+        val userHashMap = HashMap<String, Any>()
+        userHashMap[Constants.FCM_TOKEN] = token
+
+        showProgressDialog()
+        FirestoreClass().updateUserProfileData(this@MainActivity, userHashMap)
     }
 }
