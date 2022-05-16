@@ -25,10 +25,13 @@
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/activity_task_list.xml" value="0.3293739883129116" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/dialog_list.xml" value="0.33958333333333335" />
         <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.2473473159496304" />
         <entry key="app/src/main/res/layout/dialog_search_member.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/item_board.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/item_card.xml" value="0.1828774062816616" />
+        <entry key="app/src/main/res/layout/item_card_selected_member.xml" value="0.33958333333333335" />
+        <entry key="app/src/main/res/layout/item_label_color.xml" value="0.33958333333333335" />
         <entry key="app/src/main/res/layout/item_member.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/item_task.xml" value="0.3510765639965054" />
         <entry key="app/src/main/res/layout/main_content.xml" value="0.37604166666666666" />

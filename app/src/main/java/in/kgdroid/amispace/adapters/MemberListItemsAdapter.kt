@@ -80,4 +80,6 @@ open class MemberListItemsAdapter(
     }
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
+    
 }

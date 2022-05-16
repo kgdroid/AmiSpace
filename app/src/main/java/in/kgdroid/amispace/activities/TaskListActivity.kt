@@ -8,6 +8,7 @@ import `in`.kgdroid.amispace.firebase.FirestoreClass
 import `in`.kgdroid.amispace.models.Board
 import `in`.kgdroid.amispace.models.Card
 import `in`.kgdroid.amispace.models.Task
+import `in`.kgdroid.amispace.models.User
 import `in`.kgdroid.amispace.utils.Constants
 import android.app.Activity
 import android.content.Intent
@@ -24,6 +25,7 @@ class TaskListActivity : BaseActivity() {
 
     private lateinit var mBoardDetails: Board
     private lateinit var mBoardDocumentId: String
+    lateinit var mAssignedMembersDetailList: ArrayList<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +58,7 @@ class TaskListActivity : BaseActivity() {
         intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails)
         intent.putExtra(Constants.TASK_LIST_ITEM_POSITION, taskListPosition)
         intent.putExtra(Constants.CARD_LIST_ITEM_POSITION, cardPosition)
+        intent.putExtra(Constants.BOARD_MEMBERS_LIST, mAssignedMembersDetailList)
         startActivityForResult(intent, CARD_DETAILS_REQUEST_CODE)
     }
 
@@ -65,16 +68,10 @@ class TaskListActivity : BaseActivity() {
         hideProgressDialog()
         setupActionBar()
 
-        val addTaskList= Task(resources.getString(R.string.add_list))
-        board.taskList.add(addTaskList)
 
-        binding.rvTaskList.layoutManager= LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        binding.rvTaskList.setHasFixedSize(true)
-
-        val adapter =  TaskListItemsAdapter(this, board.taskList)
-
-        binding.rvTaskList.adapter = adapter
+        showProgressDialog()
+        FirestoreClass().getAssignedMembersListDetails(this, mBoardDetails.assignedTo)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -163,6 +160,38 @@ class TaskListActivity : BaseActivity() {
         showProgressDialog()
 
         FirestoreClass().addUpdateTaskList(this, mBoardDetails)
+    }
+
+    fun boardMembersDetailList(list: ArrayList<User>) {
+
+        mAssignedMembersDetailList = list
+
+
+        hideProgressDialog()
+
+         //Here we are appending an item view for adding a list task list for the board.
+        val addTaskList = Task(resources.getString(R.string.add_list))
+        mBoardDetails.taskList.add(addTaskList)
+
+        binding.rvTaskList.layoutManager =
+            LinearLayoutManager(this@TaskListActivity, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvTaskList.setHasFixedSize(true)
+
+        // Create an instance of TaskListItemsAdapter and pass the task list to it.
+        val adapter = TaskListItemsAdapter(this@TaskListActivity, mBoardDetails.taskList)
+        binding.rvTaskList.adapter = adapter // Attach the adapter to the recyclerView.
+    }
+
+    fun updateCardsInTaskList(taskListPosition: Int, cards: ArrayList<Card>) {
+
+        // Remove the last item
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size - 1)
+
+        mBoardDetails.taskList[taskListPosition].cards = cards
+
+        // Show the progress dialog.
+        showProgressDialog()
+        FirestoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
     }
 
     companion object{
