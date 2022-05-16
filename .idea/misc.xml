@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/shape_dialog_rounded.xml" value="0.2165" />
         <entry key="app/src/main/res/drawable/bg_back_btn.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/bg_forward_btn.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/bg_nav_header.xml" value="0.2535" />
@@ -13,9 +14,11 @@
         <entry key="app/src/main/res/drawable/nav_header_main_background.xml" value="0.2535" />
         <entry key="app/src/main/res/drawable/shape_button_rounded.xml" value="0.2535" />
         <entry key="app/src/main/res/layout/activity_base.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/activity_card_details.xml" value="0.33958333333333335" />
         <entry key="app/src/main/res/layout/activity_create_board.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20969202898550723" />
+        <entry key="app/src/main/res/layout/activity_members.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/activity_my_profile.xml" value="0.33958333333333335" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.28060404459635413" />
@@ -23,12 +26,17 @@
         <entry key="app/src/main/res/layout/activity_task_list.xml" value="0.3293739883129116" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.2473473159496304" />
+        <entry key="app/src/main/res/layout/dialog_search_member.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/item_board.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/item_card.xml" value="0.1828774062816616" />
+        <entry key="app/src/main/res/layout/item_member.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/item_task.xml" value="0.3510765639965054" />
         <entry key="app/src/main/res/layout/main_content.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/menu/menu_add_member.xml" value="0.37025641025641026" />
+        <entry key="app/src/main/res/menu/menu_delete_card.xml" value="0.33958333333333335" />
+        <entry key="app/src/main/res/menu/menu_members.xml" value="0.37604166666666666" />
       </map>
     </option>
   </component>

@@ -9,8 +9,13 @@ import `in`.kgdroid.amispace.models.Board
 import `in`.kgdroid.amispace.models.Card
 import `in`.kgdroid.amispace.models.Task
 import `in`.kgdroid.amispace.utils.Constants
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 
 class TaskListActivity : BaseActivity() {
@@ -18,19 +23,40 @@ class TaskListActivity : BaseActivity() {
     private lateinit var binding: ActivityTaskListBinding
 
     private lateinit var mBoardDetails: Board
+    private lateinit var mBoardDocumentId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityTaskListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var boardDocumentId= ""
         if(intent.hasExtra(Constants.DOCUMENT_ID)){
-            boardDocumentId= intent.getStringExtra(Constants.DOCUMENT_ID).toString()
+            mBoardDocumentId= intent.getStringExtra(Constants.DOCUMENT_ID).toString()
         }
 
         showProgressDialog()
-        FirestoreClass().getBoardDetails(this, boardDocumentId)
+        FirestoreClass().getBoardDetails(this, mBoardDocumentId)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK
+            && (requestCode == MEMBERS_REQUEST_CODE || requestCode == CARD_DETAILS_REQUEST_CODE)
+        ) {
+            // Show the progress dialog.
+            showProgressDialog()
+            FirestoreClass().getBoardDetails(this@TaskListActivity, mBoardDocumentId)
+        } else {
+            Log.e("Cancelled", "Cancelled")
+        }
+    }
+
+    fun cardDetails(taskListPosition: Int, cardPosition: Int){
+        val intent = Intent(this@TaskListActivity, CardDetailsActivity::class.java)
+        intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails)
+        intent.putExtra(Constants.TASK_LIST_ITEM_POSITION, taskListPosition)
+        intent.putExtra(Constants.CARD_LIST_ITEM_POSITION, cardPosition)
+        startActivityForResult(intent, CARD_DETAILS_REQUEST_CODE)
     }
 
     fun boardDetails(board: Board){
@@ -49,6 +75,24 @@ class TaskListActivity : BaseActivity() {
         val adapter =  TaskListItemsAdapter(this, board.taskList)
 
         binding.rvTaskList.adapter = adapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_members, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.action_members ->{
+                val intent= Intent(this, MembersActivity::class.java)
+                intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails)
+                startActivityForResult(intent, MEMBERS_REQUEST_CODE)
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupActionBar(){
@@ -119,5 +163,10 @@ class TaskListActivity : BaseActivity() {
         showProgressDialog()
 
         FirestoreClass().addUpdateTaskList(this, mBoardDetails)
+    }
+
+    companion object{
+        const val MEMBERS_REQUEST_CODE: Int= 13
+        const val CARD_DETAILS_REQUEST_CODE: Int = 14
     }
 }
