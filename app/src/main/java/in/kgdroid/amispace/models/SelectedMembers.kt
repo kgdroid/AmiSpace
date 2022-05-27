@@ -3,7 +3,7 @@ package `in`.kgdroid.amispace.models
 import android.os.Parcel
 import android.os.Parcelable
 
-data class SelectedMembers (
+data class SelectedMembers(
     val id: String = "",
     val image: String = ""
 ) : Parcelable {

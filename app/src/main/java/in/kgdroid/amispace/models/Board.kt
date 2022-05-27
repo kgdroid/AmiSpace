@@ -3,14 +3,14 @@ package `in`.kgdroid.amispace.models
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Board (
-    val name: String= "",
-    val image: String= "",
-    val createBy: String= "",
+data class Board(
+    val name: String = "",
+    val image: String = "",
+    val createBy: String = "",
     val assignedTo: ArrayList<String> = ArrayList(),
-    var documentId: String= "",
+    var documentId: String = "",
     var taskList: ArrayList<Task> = ArrayList()
-    ):Parcelable{
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
@@ -21,7 +21,7 @@ data class Board (
     ) {
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) = with(parcel){
+    override fun writeToParcel(parcel: Parcel, flags: Int) = with(parcel) {
         parcel.writeString(name)
         parcel.writeString(image)
         parcel.writeString(createBy)

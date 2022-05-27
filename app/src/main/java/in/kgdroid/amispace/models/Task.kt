@@ -3,11 +3,11 @@ package `in`.kgdroid.amispace.models
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Task (
-    var title: String= "",
-    val createdBy: String= "",
+data class Task(
+    var title: String = "",
+    val createdBy: String = "",
     var cards: ArrayList<Card> = ArrayList()
-): Parcelable {
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
@@ -16,7 +16,7 @@ data class Task (
 
     override fun describeContents() = 0
 
-    override fun writeToParcel(dest: Parcel, flags: Int)= with(dest) {
+    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(title)
         writeString(createdBy)
         writeTypedList(cards)

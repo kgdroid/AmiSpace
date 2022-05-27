@@ -18,6 +18,9 @@ import com.google.firebase.auth.FirebaseUser
 class SignUpActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
+    /**
+     * This function is auto created by Android when the Activity Class is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivitySignUpBinding.inflate(layoutInflater)
@@ -35,6 +38,10 @@ class SignUpActivity : BaseActivity() {
 
     }
 
+    /**
+     * A function to register a user to our app using the Firebase.
+     * For more details visit: https://firebase.google.com/docs/auth/android/custom-auth
+     */
     private fun registerUser(){
         val name:String= binding.signUpUsername.editText?.text.toString().trim{ it <= ' '}
         val email:String= binding.signUpEmail.editText?.text.toString().trim{ it <= ' '}
@@ -55,17 +62,24 @@ class SignUpActivity : BaseActivity() {
         }
     }
 
+    /**
+     * A function to be called the user is registered successfully and entry is made in the firestore database.
+     */
     fun userRegisteredSuccess(){
         Toast.makeText(
             this,
             "you have successfully registered",
             Toast.LENGTH_LONG
         ).show()
+        startActivity(Intent(this, MainActivity::class.java))
         hideProgressDialog()
-        FirebaseAuth.getInstance().signOut()
+//        FirebaseAuth.getInstance().signOut()
         finish()
     }
 
+    /**
+     * A function to validate the entries of a new user.
+     */
     private fun validateForm(name: String, email: String, password: String) :Boolean{
         return when {
             TextUtils.isEmpty(name) ->{

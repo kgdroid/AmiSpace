@@ -11,41 +11,46 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
 class SignInActivity : BaseActivity() {
-
+    /**
+     * This function is auto created by Android when the Activity Class is created.
+     */
     private lateinit var binding: ActivitySignInBinding
-    private lateinit var auth:FirebaseAuth
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivitySignInBinding.inflate(layoutInflater)
+        binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        auth= FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         binding.signInBackBtn.setOnClickListener {
-            val b:Bundle= ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
-            startActivity(Intent(this, IntroActivity::class.java),b)
+            val b: Bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+            startActivity(Intent(this, IntroActivity::class.java), b)
             finish()
         }
 
         binding.signInCreateAcc.setOnClickListener {
-            val b:Bundle= ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
-            startActivity(Intent(this, SignUpActivity::class.java),b)
+            val b: Bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+            startActivity(Intent(this, SignUpActivity::class.java), b)
         }
 
         binding.signInForwardBtn.setOnClickListener {
-            val b:Bundle= ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+            val b: Bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
             signInRegisteredUser()
         }
     }
 
-    private fun signInRegisteredUser(){
-        val email:String= binding.signInUsername.editText?.text.toString().trim{ it <= ' '}
-        val password: String= binding.signInPassword.editText?.text.toString().trim{ it <= ' '}
+    /**
+     * A function for Sign-In using the registered user using the email and password.
+     */
+    private fun signInRegisteredUser() {
+        val email: String = binding.signInUsername.editText?.text.toString().trim { it <= ' ' }
+        val password: String = binding.signInPassword.editText?.text.toString().trim { it <= ' ' }
 
-        if(validateForm(email, password)){
+        if (validateForm(email, password)) {
             showProgressDialog()
             auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this){ task ->
+                .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Calling the FirestoreClass signInUser function to get the data of user from database.
                         FirestoreClass().loadUserData(this@SignInActivity)
@@ -55,27 +60,35 @@ class SignInActivity : BaseActivity() {
                             task.exception!!.message,
                             Toast.LENGTH_LONG
                         ).show()
+                        hideProgressDialog()
                     }
                 }
         }
     }
 
-    fun signInSuccess(user: User){
+    /**
+     * A function to get the user details from the firestore database after authentication.
+     */
+    fun signInSuccess(user: User) {
         hideProgressDialog()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 
-    private fun validateForm(email: String, password: String) :Boolean{
+    /**
+     * A function to validate the entries of a user.
+     */
+    private fun validateForm(email: String, password: String): Boolean {
         return when {
-            TextUtils.isEmpty(email) ->{
+            TextUtils.isEmpty(email) -> {
                 showErrorSnackBar("Please Enter a valid email")
                 false
             }
-            TextUtils.isEmpty(password) ->{
+            TextUtils.isEmpty(password) -> {
                 showErrorSnackBar("Please Enter a password")
                 false
-            }else ->{
+            }
+            else -> {
                 true
             }
         }

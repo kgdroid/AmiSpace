@@ -28,16 +28,22 @@ class CardDetailsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCardDetailsBinding
 
+    // A global variable for board details
     private lateinit var mBoardDetails: Board
-    private var mTaskListPosition = -1
-    private var mCardPosition = -1
+    // A global variable for task item position
+    private var mTaskListPosition: Int = -1
+    // A global variable for card item position
+    private var mCardPosition: Int = -1
+    // A global variable for selected label color
     private var mSelectedColor: String = ""
+    // A global variable for Assigned Members List.
     private lateinit var mMembersDetailList: ArrayList<User>
+    // A global variable for selected due date
     private var mSelectedDueDateMilliSeconds: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityCardDetailsBinding.inflate(layoutInflater)
+        binding = ActivityCardDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getIntentData()
         setupActionBar()
@@ -69,12 +75,13 @@ class CardDetailsActivity : BaseActivity() {
 
         setupSelectedMembersList()
 
-        mSelectedDueDateMilliSeconds = mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].dueDate
+        mSelectedDueDateMilliSeconds =
+            mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].dueDate
 
-        if(mSelectedDueDateMilliSeconds > 0){
-            val simpleDateFormat= SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+        if (mSelectedDueDateMilliSeconds > 0) {
+            val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
             val selectedDate = simpleDateFormat.format(Date(mSelectedDueDateMilliSeconds))
-            binding.tvSelectDueDate.text= selectedDate
+            binding.tvSelectDueDate.text = selectedDate
         }
 
         binding.tvSelectDueDate.setOnClickListener {
@@ -82,6 +89,9 @@ class CardDetailsActivity : BaseActivity() {
         }
     }
 
+    /**
+     * A function to get the result of add or updating the task list.
+     */
     fun addUpdateTaskListSuccess() {
 
         hideProgressDialog()
@@ -90,17 +100,21 @@ class CardDetailsActivity : BaseActivity() {
         finish()
     }
 
-    private fun setupActionBar(){
-        val toolbar_card_details_activity: androidx.appcompat.widget.Toolbar = binding.toolbarCardDetailsActivity
+    /**
+     * A function to setup action bar
+     */
+    private fun setupActionBar() {
+        val toolbar_card_details_activity: androidx.appcompat.widget.Toolbar =
+            binding.toolbarCardDetailsActivity
         setSupportActionBar(toolbar_card_details_activity)
-        val actionBar= supportActionBar
-        if(actionBar != null){
+        val actionBar = supportActionBar
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true)
             actionBar.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
             actionBar.title = mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].name
         }
 
-        toolbar_card_details_activity.setNavigationOnClickListener{ onBackPressed()}
+        toolbar_card_details_activity.setNavigationOnClickListener { onBackPressed() }
 
     }
 
@@ -109,11 +123,17 @@ class CardDetailsActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    /**
+     * A function to remove the text and set the label color to the TextView.
+     */
     private fun setColor() {
         binding.tvSelectLabelColor.text = ""
         binding.tvSelectLabelColor.setBackgroundColor(Color.parseColor(mSelectedColor))
     }
 
+    /**
+     * A function to add some static label colors in the list.
+     */
     private fun colorsList(): ArrayList<String> {
 
         val colorsList: ArrayList<String> = ArrayList()
@@ -128,7 +148,9 @@ class CardDetailsActivity : BaseActivity() {
         return colorsList
     }
 
-
+    /**
+     * A function to launch the label color list dialog.
+     */
     private fun labelColorsListDialog() {
 
         val colorsList: ArrayList<String> = colorsList()
@@ -158,14 +180,14 @@ class CardDetailsActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun getIntentData(){
-        if(intent.hasExtra(Constants.BOARD_DETAIL)){
+    private fun getIntentData() {
+        if (intent.hasExtra(Constants.BOARD_DETAIL)) {
             mBoardDetails = intent.getParcelableExtra(Constants.BOARD_DETAIL)!!
         }
-        if(intent.hasExtra(Constants.TASK_LIST_ITEM_POSITION)){
+        if (intent.hasExtra(Constants.TASK_LIST_ITEM_POSITION)) {
             mTaskListPosition = intent.getIntExtra(Constants.TASK_LIST_ITEM_POSITION, -1)
         }
-        if(intent.hasExtra(Constants.CARD_LIST_ITEM_POSITION)){
+        if (intent.hasExtra(Constants.CARD_LIST_ITEM_POSITION)) {
             mCardPosition = intent.getIntExtra(Constants.CARD_LIST_ITEM_POSITION, -1)
         }
         if (intent.hasExtra(Constants.BOARD_MEMBERS_LIST)) {
@@ -173,6 +195,9 @@ class CardDetailsActivity : BaseActivity() {
         }
     }
 
+    /**
+     * A function to launch and setup assigned members detail list into recyclerview.
+     */
     private fun membersListDialog() {
 
         // Here we get the updated assigned members list
@@ -228,6 +253,9 @@ class CardDetailsActivity : BaseActivity() {
         listDialog.show()
     }
 
+    /**
+     * A function to setup the recyclerView for card assigned members.
+     */
     private fun setupSelectedMembersList() {
 
         // Assigned members of the Card.
@@ -259,7 +287,8 @@ class CardDetailsActivity : BaseActivity() {
             binding.tvSelectMembers.visibility = View.GONE
             binding.rvSelectedMembersList.visibility = View.VISIBLE
 
-            binding.rvSelectedMembersList.layoutManager = GridLayoutManager(this@CardDetailsActivity, 6)
+            binding.rvSelectedMembersList.layoutManager =
+                GridLayoutManager(this@CardDetailsActivity, 6)
             val adapter =
                 CardMemberListItemsAdapter(this@CardDetailsActivity, selectedMembersList, true)
             binding.rvSelectedMembersList.adapter = adapter
@@ -275,6 +304,9 @@ class CardDetailsActivity : BaseActivity() {
         }
     }
 
+    /**
+     * A function to update card details.
+     */
     private fun updateCardDetails() {
 
         // Here we have updated the card name using the data model class.
@@ -297,6 +329,9 @@ class CardDetailsActivity : BaseActivity() {
         FirestoreClass().addUpdateTaskList(this@CardDetailsActivity, mBoardDetails)
     }
 
+    /**
+     * A function to show an alert dialog for the confirmation to delete the card.
+     */
     private fun alertDialogForDeleteCard(cardName: String) {
         val builder = AlertDialog.Builder(this)
         //set title for alert dialog
@@ -326,6 +361,9 @@ class CardDetailsActivity : BaseActivity() {
         alertDialog.show()  // show the dialog to UI
     }
 
+    /**
+     * A function to delete the card from the task list.
+     */
     private fun deleteCard() {
 
         // Here we have got the cards list from the task item list using the task list position.
@@ -343,18 +381,36 @@ class CardDetailsActivity : BaseActivity() {
         FirestoreClass().addUpdateTaskList(this@CardDetailsActivity, mBoardDetails)
     }
 
+    /**
+     * The function to show the DatePicker Dialog and select the due date.
+     */
     private fun showDataPicker() {
-
+        /**
+         * This Gets a calendar using the default time zone and locale.
+         * The calender returned is based on the current time
+         * in the default time zone with the default.
+         */
         val c = Calendar.getInstance()
         val year =
             c.get(Calendar.YEAR) // Returns the value of the given calendar field. This indicates YEAR
         val month = c.get(Calendar.MONTH) // This indicates the Month
         val day = c.get(Calendar.DAY_OF_MONTH) // This indicates the Day
-
+        /**
+         * Creates a new date picker dialog for the specified date using the parent
+         * context's default date picker dialog theme.
+         */
         val dpd = DatePickerDialog(
             this,
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                /*
+                  The listener used to indicate the user has finished selecting a date.
+                 Here the selected date is set into format i.e : day/Month/Year
+                  And the month is counted in java is 0 to 11 so we need to add +1 so it can be as selected.
 
+                 Here the selected date is set into format i.e : day/Month/Year
+                  And the month is counted in java is 0 to 11 so we need to add +1 so it can be as selected.*/
+
+                // Here we have appended 0 if the selected day is smaller than 10 to make it double digit value.
                 val sDayOfMonth = if (dayOfMonth < 10) "0$dayOfMonth" else "$dayOfMonth"
                 // Here we have appended 0 if the selected month is smaller than 10 to make it double digit value.
                 val sMonthOfYear =
@@ -364,10 +420,25 @@ class CardDetailsActivity : BaseActivity() {
                 // Selected date it set to the TextView to make it visible to user.
                 binding.tvSelectDueDate.text = selectedDate
 
+                /**
+                 * Here we have taken an instance of Date Formatter as it will format our
+                 * selected date in the format which we pass it as an parameter and Locale.
+                 * Here I have passed the format as dd/MM/yyyy.
+                 */
+                /**
+                 * Here we have taken an instance of Date Formatter as it will format our
+                 * selected date in the format which we pass it as an parameter and Locale.
+                 * Here I have passed the format as dd/MM/yyyy.
+                 */
                 val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
 
                 val theDate = sdf.parse(selectedDate)
 
+                /** Here we have get the time in milliSeconds from Date object
+                 */
+
+                /** Here we have get the time in milliSeconds from Date object
+                 */
                 mSelectedDueDateMilliSeconds = theDate!!.time
             },
             year,

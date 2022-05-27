@@ -22,11 +22,11 @@
                 android:id="@+id/tvDialogTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_bold"
                 android:padding="5dp"
                 android:text="Search Member"
                 android:textColor="@color/charcoal"
                 android:textSize="18sp"
-                android:fontFamily="@font/quicksand_bold"
                 android:textStyle="bold" />
 
             <View
@@ -45,8 +45,8 @@
                     android:id="@+id/et_email_search_member"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
                     android:fontFamily="@font/quicksand_regular"
+                    android:hint="Email"
                     android:inputType="textEmailAddress"
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -63,10 +63,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackground"
+                    android:fontFamily="@font/quicksand_regular"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="ADD"
-                    android:fontFamily="@font/quicksand_regular"
                     android:textColor="@color/primary_blue"
                     android:textSize="16sp" />
 
@@ -76,10 +76,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackground"
+                    android:fontFamily="@font/quicksand_regular"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="Cancel"
-                    android:fontFamily="@font/quicksand_regular"
                     android:textColor="@color/snackbar_error_color"
                     android:textSize="16sp" />
             </LinearLayout>

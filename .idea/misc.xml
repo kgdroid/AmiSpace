@@ -11,7 +11,9 @@
         <entry key="app/src/main/res/drawable/bg_sign_in.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/bg_sign_up.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/ic_back_arrow.xml" value="0.238" />
+        <entry key="app/src/main/res/drawable/ic_board_place_holder.xml" value="0.148" />
         <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.2165" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.232" />
         <entry key="app/src/main/res/drawable/nav_header_main_background.xml" value="0.2535" />
         <entry key="app/src/main/res/drawable/shape_button_rounded.xml" value="0.2535" />
         <entry key="app/src/main/res/layout/activity_base.xml" value="0.37604166666666666" />

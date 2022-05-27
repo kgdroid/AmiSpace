@@ -17,14 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:titleTextAppearance="@font/quicksand_regular"
-            app:popupTheme="@style/Theme.PopupOverlay" />
+            app:popupTheme="@style/Theme.PopupOverlay"
+            app:titleTextAppearance="@font/quicksand_regular" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/ic_background"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -57,8 +57,8 @@
                         android:id="@+id/et_board_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/board_name"
                         android:fontFamily="@font/quicksand_regular"
+                        android:hint="@string/board_name"
                         android:inputType="text"
                         android:textSize="16sp" />
 
@@ -71,12 +71,12 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/shape_button_rounded"
+                    android:fontFamily="@font/quicksand_regular"
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="@string/create"
-                    android:fontFamily="@font/quicksand_regular"
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
             </LinearLayout>

@@ -32,8 +32,8 @@ abstract class MembersListDialog(
     }
 
     private fun setUpRecyclerView(view: View) {
-        val tvTitle: TextView= view.findViewById(R.id.tvTitle)
-        val rvList: RecyclerView= view.findViewById(R.id.rvList)
+        val tvTitle: TextView = view.findViewById(R.id.tvTitle)
+        val rvList: RecyclerView = view.findViewById(R.id.rvList)
         tvTitle.text = title
 
         if (list.size > 0) {
@@ -44,7 +44,7 @@ abstract class MembersListDialog(
 
             adapter!!.setOnClickListener(object :
                 MemberListItemsAdapter.OnClickListener {
-                override fun onClick(position: Int, user: User, action:String) {
+                override fun onClick(position: Int, user: User, action: String) {
                     dismiss()
                     onItemSelected(user, action)
                 }
@@ -52,5 +52,5 @@ abstract class MembersListDialog(
         }
     }
 
-    protected abstract fun onItemSelected(user: User, action:String)
+    protected abstract fun onItemSelected(user: User, action: String)
 }

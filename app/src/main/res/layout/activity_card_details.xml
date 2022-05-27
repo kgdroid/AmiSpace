@@ -23,7 +23,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/ic_background"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -49,9 +49,9 @@
                         android:id="@+id/et_name_card_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/quicksand_regular"
                         android:hint="Card Name"
                         android:inputType="text"
-                        android:fontFamily="@font/quicksand_regular"
                         android:textSize="16sp"
                         tools:text="Test" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -75,9 +75,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand_bold"
                     android:text="Label Color"
                     android:textColor="@color/charcoal"
-                    android:fontFamily="@font/quicksand_bold"
                     android:textSize="14sp" />
 
                 <TextView
@@ -85,8 +85,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:padding="10dp"
                     android:fontFamily="@font/quicksand_regular"
+                    android:padding="10dp"
                     android:text="Select Color"
                     android:textColor="@color/charcoal" />
 
@@ -94,8 +94,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="Members"
                     android:fontFamily="@font/quicksand_bold"
+                    android:text="Members"
                     android:textColor="@color/charcoal"
                     android:textSize="14sp" />
 
@@ -104,10 +104,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:fontFamily="@font/quicksand_regular"
                     android:padding="10dp"
                     android:text="Select Members"
                     android:textColor="@color/charcoal"
-                    android:fontFamily="@font/quicksand_regular"
                     android:visibility="visible"
                     tools:visibility="gone" />
 
@@ -123,8 +123,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="Due Date"
                     android:fontFamily="@font/quicksand_bold"
+                    android:text="Due Date"
                     android:textColor="@color/charcoal"
                     android:textSize="14sp" />
 
@@ -133,8 +133,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:padding="10dp"
                     android:fontFamily="@font/quicksand_regular"
+                    android:padding="10dp"
                     android:text="Select Due Date"
                     android:textColor="@color/charcoal" />
 
@@ -145,12 +145,12 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/shape_button_rounded"
+                    android:fontFamily="@font/quicksand_regular"
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="UPDATE"
-                    android:fontFamily="@font/quicksand_regular"
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
             </LinearLayout>

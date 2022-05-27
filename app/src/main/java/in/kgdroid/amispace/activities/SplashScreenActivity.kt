@@ -8,16 +8,19 @@ import android.os.Bundle
 import android.os.Handler
 
 class SplashScreenActivity : AppCompatActivity() {
+    /**
+     * This function is auto created by Android when the Activity Class is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
         Handler().postDelayed({
 
-            var currentUserId= FirestoreClass().getCurrentUserId()
-            if(currentUserId.isNotEmpty()){
+            var currentUserId = FirestoreClass().getCurrentUserId()
+            if (currentUserId.isNotEmpty()) {
                 startActivity(Intent(this, MainActivity::class.java))
-            }else{
+            } else {
                 startActivity(Intent(this, IntroActivity::class.java))
             }
             finish()

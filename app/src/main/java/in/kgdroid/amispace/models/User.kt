@@ -3,15 +3,15 @@ package `in`.kgdroid.amispace.models
 import android.os.Parcel
 import android.os.Parcelable
 
-data class User (
-    val id:String= "",
-    val name:String= "",
-    val email:String= "",
-    val image:String= "",
-    val mobile: Long= 0,
-    val fcmToken: String= "",
+data class User(
+    val id: String = "",
+    val name: String = "",
+    val email: String = "",
+    val image: String = "",
+    val mobile: Long = 0,
+    val fcmToken: String = "",
     var selected: Boolean = false
-    ): Parcelable {
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
@@ -22,7 +22,7 @@ data class User (
     ) {
     }
 
-    override fun describeContents() =0
+    override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(id)

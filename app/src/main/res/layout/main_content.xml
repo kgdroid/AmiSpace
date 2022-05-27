@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/ic_background"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
@@ -35,11 +35,12 @@
                 android:id="@+id/board_empty_anim"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
-                android:layout_marginTop="10dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/empty_anim" />
+
             <TextView
                 android:id="@+id/tv_no_boards_available"
                 android:layout_width="match_parent"

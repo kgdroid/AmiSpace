@@ -33,26 +33,32 @@ class MyProfileActivity : BaseActivity() {
     private lateinit var binding: ActivityMyProfileBinding
 
 
-    private var mSelectedImageFileUri: Uri?= null
-    private var mProfileImageURL:String= ""
+    // Add a global variable for URI of a selected image from phone storage.
+    private var mSelectedImageFileUri: Uri? = null
+
+    // A global variable for user details.
     private lateinit var mUserDetails: User
+
+    // A global variable for a user profile image URL
+    private var mProfileImageURL: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityMyProfileBinding.inflate(layoutInflater)
+        binding = ActivityMyProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupActionBar()
 
         FirestoreClass().loadUserData(this)
 
-        binding.ivProfileUserImage.setOnClickListener{
+        binding.ivProfileUserImage.setOnClickListener {
 
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED
+            ) {
 
                 Constants.showImageChooser(this)
-            }else{
+            } else {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -61,27 +67,34 @@ class MyProfileActivity : BaseActivity() {
             }
         }
 
-        binding.btnUpdate.setOnClickListener{
-            if(mSelectedImageFileUri != null){
+        binding.btnUpdate.setOnClickListener {
+            if (mSelectedImageFileUri != null) {
                 uploadUserImage()
-            }else{
+            } else {
                 showProgressDialog()
                 updateUserProfileData()
             }
         }
     }
 
+    /**
+     * This function will identify the result of runtime permission after the user allows or deny permission based on the unique code.
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode== READ_STORAGE_PERMISSION_CODE){
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == READ_STORAGE_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showImageChooser(this)
             }
-        }else{
+        } else {
             Toast.makeText(
                 this,
                 "Oops, just denied the permission for storage",
@@ -91,45 +104,51 @@ class MyProfileActivity : BaseActivity() {
     }
 
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode ==  Activity.RESULT_OK && requestCode == Constants.PICK_IMAGE_REQUEST_CODE && data!!.data != null){
-            mSelectedImageFileUri= data.data
+        if (resultCode == Activity.RESULT_OK && requestCode == Constants.PICK_IMAGE_REQUEST_CODE && data!!.data != null) {
+            mSelectedImageFileUri = data.data
 
             val iv_user_image: CircleImageView = binding.ivProfileUserImage
 
-            try{
+            try {
                 Glide
                     .with(this)
                     .load(mSelectedImageFileUri)
                     .centerCrop()
                     .placeholder(R.drawable.ic_user_image)
                     .into(iv_user_image)
-            }catch (e: IOException){
+            } catch (e: IOException) {
                 e.printStackTrace()
             }
 
         }
     }
 
-    private fun setupActionBar(){
-        val tool_bar_my_profile: androidx.appcompat.widget.Toolbar = binding.toolbarMyProfileActivity
+    /**
+     * A function to setup action bar
+     */
+    private fun setupActionBar() {
+        val tool_bar_my_profile: androidx.appcompat.widget.Toolbar =
+            binding.toolbarMyProfileActivity
         setSupportActionBar(tool_bar_my_profile)
-        val actionBar= supportActionBar
-        if(actionBar != null){
+        val actionBar = supportActionBar
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true)
             actionBar.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
-            actionBar.title= resources.getString(R.string.nav_my_profile)
+            actionBar.title = resources.getString(R.string.nav_my_profile)
         }
 
-        tool_bar_my_profile.setNavigationOnClickListener{ onBackPressed()}
+        tool_bar_my_profile.setNavigationOnClickListener { onBackPressed() }
 
     }
 
-    fun setUserDataInUI(user: User){
+    /**
+     * A function to set the existing details in UI.
+     */
+    fun setUserDataInUI(user: User) {
 
-        mUserDetails= user
+        mUserDetails = user
 
         val iv_user_image: CircleImageView = binding.ivProfileUserImage
         Glide
@@ -143,45 +162,53 @@ class MyProfileActivity : BaseActivity() {
         binding.etEmail.setText(user.email)
     }
 
-    private fun updateUserProfileData(){
-        val userHashMap=HashMap<String,Any>()
+    /**
+     * A function to update the user profile details into the database.
+     */
+    private fun updateUserProfileData() {
+        val userHashMap = HashMap<String, Any>()
 
 
-        if(mProfileImageURL.isNotEmpty() && mProfileImageURL != mUserDetails.image){
+        if (mProfileImageURL.isNotEmpty() && mProfileImageURL != mUserDetails.image) {
             userHashMap[Constants.IMAGE] = mProfileImageURL
         }
 
-        if(binding.etName.text.toString() != mUserDetails.name){
-            userHashMap[Constants.NAME]= binding.etName.text.toString()
+        if (binding.etName.text.toString() != mUserDetails.name) {
+            userHashMap[Constants.NAME] = binding.etName.text.toString()
         }
 
         FirestoreClass().updateUserProfileData(this, userHashMap)
     }
 
-    private fun uploadUserImage(){
+    /**
+     * A function to upload the selected user image to firebase cloud storage.
+     */
+    private fun uploadUserImage() {
         showProgressDialog()
 
-        if(mSelectedImageFileUri != null){
+        if (mSelectedImageFileUri != null) {
 
-            val sRef: StorageReference= FirebaseStorage.getInstance()
-                .reference.child("USER_IMAGE" + System.currentTimeMillis() + "." + Constants.getFileExtension(this, mSelectedImageFileUri))
+            val sRef: StorageReference = FirebaseStorage.getInstance()
+                .reference.child(
+                    "USER_IMAGE" + System.currentTimeMillis() + "." + Constants.getFileExtension(
+                        this,
+                        mSelectedImageFileUri
+                    )
+                )
 
-            sRef.putFile(mSelectedImageFileUri!!).addOnSuccessListener {
-                taskSnapshot ->
+            sRef.putFile(mSelectedImageFileUri!!).addOnSuccessListener { taskSnapshot ->
                 Log.i(
                     "Firebase Image URL",
                     taskSnapshot.metadata!!.reference!!.downloadUrl.toString()
                 )
 
-                taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
-                    uri ->
+                taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener { uri ->
                     Log.i("Downloadable Image URL", uri.toString())
                     mProfileImageURL = uri.toString()
 
                     updateUserProfileData()
                 }
-            }.addOnFailureListener{
-                exception ->
+            }.addOnFailureListener { exception ->
                 Toast.makeText(
                     this,
                     exception.message,
@@ -193,9 +220,10 @@ class MyProfileActivity : BaseActivity() {
         }
     }
 
-
-
-    fun profileUpdateSuccess(){
+    /**
+     * A function to notify the user profile is updated successfully.
+     */
+    fun profileUpdateSuccess() {
         hideProgressDialog()
 
         setResult(Activity.RESULT_OK)
